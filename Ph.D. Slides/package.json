@@ -1,8 +1,7 @@
 {
-  "name": "Ph.D Slides",
+  "name": "phd-slides",
   "version": "1.0.0",
   "description": "Ph.D Slides developed in Reveal.js framework",
-  "subdomain": "revealjs",
   "main": "js/reveal.js",
   "scripts": {
     "test": "grunt test",
