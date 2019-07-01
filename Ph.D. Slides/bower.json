@@ -1,0 +1,27 @@
+{
+  "name": "Ph.D Slides",
+  "version": "3.7.0",
+  "main": [
+    "js/reveal.js",
+    "css/reveal.css"
+  ],
+  "homepage": "http://revealjs.com",
+  "license": "MIT",
+  "description": "Ph.D Slides developed in Reveal.js framework",
+  "authors": [
+    "Jordi Mateo Fornes <jordi.mateo@udl.cat>"
+  ],
+  "dependencies": {
+    "headjs": "~1.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hakimel/reveal.js.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ]
+}

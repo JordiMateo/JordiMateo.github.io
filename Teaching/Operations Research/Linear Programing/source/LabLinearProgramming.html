@@ -1,0 +1,539 @@
+<!--
+Google IO 2012/2013 HTML5 Slide Template
+
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahé <lukem@google.com>
+
+URL: https://code.google.com/p/io-2012-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/eps.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/udl.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+<slide>
+    <hgroup>
+        <h2>Laboratory Essentials</h2>
+    </hgroup>
+    <article>
+        <ul>
+            <li>Machine: 193.144.12.89</li>
+            <li>user: userX where X{0...10}</li>
+            <li>password userX is userX where X{0...10}</li>
+        </ul>
+        <pre data-lang="terminal">
+    <b> ssh </b> ssh userX@193.144.12.89
+    <b> scp</b>
+     scp  route_to_a_file(user machine)  userX@193.144.12.89:route(server machine)
+    <b> scp</b>
+     scp -r route_to_a_directory(user machine) userX@193.144.12.89:route(server machine)
+        </pre>
+    </article>
+</slide>
+
+  <slide>
+    <hgroup>
+      <h2>Contents</h2>
+    </hgroup>
+    <article>
+      <ul>
+          <li>Linear Programing: The Happiness Problem</li>
+        <ul>
+            <li>Model</li>
+            <li>Using CPLEX solver (terminal)</li>
+            <li>Using CPLEX solver (API JAVA)</li>
+        </ul>
+        <li>Game-Theory and Linear Programming: Two-Person Zero-Sum Games </li>
+         <ul>
+             <li>Paper-Rock-Scissors Game</li>
+             <li>The Ultra Conservative Investor</li>
+             <li>Using AMPL + NEOS</li>
+         </ul>
+      </ul>
+    </article>
+  </slide>
+
+
+  <slide>
+    <hgroup>
+      <h2>The Happiness Problem</h2>
+      <h3>Description</h3>
+    </hgroup>
+      </br>
+    <p> There are 7 days in a week, so there are <b class="green">168</b> hours in a week. We want to allocate our time between:</p>
+    </br>
+    <p>
+    <ul>
+        <li>Classes and Studing <b class="red">(C)</b></li>
+        <li>Fun activities and going to parties <b class="red">(P)</b></li>
+        <li>Vital activities such as slepping, eating, ... <b class="red">(O)</b></li>
+    </ul>
+    </p>
+      </br>
+    <p>Suppose that our notion of happines it can be mesured and follow the following function:   <b class="blue">happines(<b class="red">P</b>,<b class="red">O</b>,<b class="red">S</b>) = 2*<b class="red">P</b> + <b class="red">O</b> </b>.</p>
+      </br>
+    <p>Suppose that to survive we need at least  <b class="green">56 hours</b> on <b class="red">O</b>, which is 8 hours per day. Besides, to mantain sanity we need  <b class="green"> <b class="red">P</b> + <b class="red">O</b> >= 70 </b>. To pass our courses, we need <b class="green"> <b class="red">S</b> >= 60 </b>, but more if don't sleep enought or spend too much time on parties <b class="green"> 2*<b class="red">S</b> + <b class="red">O</b> -3*<b class="red">P</b> >= 150 </b>. If don't go parties at all then this is not a problem, but if we spend more time on <b class="red">P</b> then we need to sleep more or study more.</p>
+    </div>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>The Happiness Problem</h2>
+          <h3>Model</h3>
+      </hgroup>
+      <article>
+          <pre data-lang="CPLEX .lp">
+              <b class="red">Maximize</b>;       <b class="blue">//This is the optimitzation sense.</b>
+              <b class="red">obj</b>: 2*P + O;    <b class="blue">//This is the objective function.</b>
+              <b class="red">Subject to</b>:     <b class="blue">//This are the constraints.</b>
+              <b class="green">To survive</b>: O >= 56;
+              <b class="green">To sanity</b>: P + O >= 70;
+              <b class="green">To pass the course</b>: S >= 60;
+              <b class="green">For compensation</b>: 2*S + O -3*P >= 150;
+              <b class="green">Total Amount of (H) in a week</b>: S + P + O = 168;
+              <b class="green">It can be possible not to have fun</b>: P >=0;
+              <b class="red">end</b>;</pre>
+    </article>
+      <footer class="source">source code: <a href="src/happinnes.lp">happinnes.lp</a></footer>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>The Happiness Problem</h2>
+          <h3>CPLEX (terminal)</h3>
+      </hgroup>
+      <article>
+          <pre data-lang="terminal">
+                <b> $ </b> ./cplex
+                <b> CPLEX> </b> help
+          </pre>
+      </article>
+       <footer class="source">Download a trial version: <a href=" http://www-01.ibm.com/software/websphere/products/optimization/cplex-studio-preview-edition/ ">cplex</a></footer>
+      </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>The Happiness Problem</h2>
+          <h3>CPLEX (terminal)</h3>
+      </hgroup>
+      <article>
+          <pre data-lang="terminal">
+              <b> $ </b> ./cplex
+              <b> CPLEX> </b> enter
+              <b> CPLEX> </b> Enter name of the problem: happiness.lp
+              <b> CPLEX> </b> Enter new problem ['end' on a separate line terminates]:
+              <b> CPLEX> </b> <b class="blue">//here copy and paste the previous model </b>
+              <b> CPLEX> </b> optimize
+              <b> CPLEX> </b> display solution objective
+              <b> CPLEX> </b> display solution variables -
+          </pre>
+      </article>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>The Happiness Problem</h2>
+          <h3>CPLEX (Java API)</h3>
+      </hgroup>
+      </br>
+       <article>
+      <pre class="prettyprint" data-lang="java">
+          import ilog.concert.*;
+          import ilog.cplex.*;
+          public class Happiness {
+          public static void main(String[] args){
+          try {
+          IloCplex cplex = new IloCplex();
+          IloObjective obj = cplex.addMaximize();
+          IloRange c1 = cplex.addRange(-infinity, 70.0, "c1");
+          IloNumVar P = cplex.numVar(cplex.column(obj,  1.0).and(
+          cplex.column(c1,  -1.0).and(cplex.column(c2,   1.0).and(
+          cplex.column(c3,   1.0)))),0, infinity, "P");
+          cplex.solve();
+          System.out.println("f.o: "+cplex.getObjValue());
+          System.out.println("P: "+cplex.getValue(P));
+          } catch (IloException e) {System.err.println("Concert exception caught: " + e);}}}
+      </pre>
+       </article>
+         <footer class="source">source: <a href="src/Happiness.java "> Happiness.java</a> <a href="src/Makefile "> Makefile</a></footer>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>Paper-Rock-Scissors Game</h3>
+      </hgroup>
+      </br>
+      <article>
+          <div class="centered" style="margin-top:2em">
+              <img src="images/rock-paper-scissor.png" style="width: 40%;" />
+          </div>
+          </table>
+      </article>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>Paper-Rock-Scissors Game</h3>
+      </hgroup>
+      </br>
+      <article>
+          <div class="centered" style="margin-top:2em">
+              <img src="images/sheldonvsleonard.png" style="width: 60%;" />
+          </div>
+          </table>
+      </article>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>Paper-Rock-Scissors Game</h3>
+      </hgroup>
+      </br>
+    
+      <article>
+          <table>
+              <tr>
+                  <th class="center" colspan="2" rowspan="2">PayOff<br> Matrix<br></th>
+                  <td class="center" colspan="3"> <img src="images/leonard.png" style="width: 30%;" /></th>
+              </tr>
+              <tr>
+                  <th class="r center">Rock</td>
+                  <th class="r center">Paper</td>
+                  <th class="r center">Scissors</td>
+              </tr>
+              <tr>
+                  <td class="center" rowspan="3">  <img src="images/sheldon.png" style="width: 30%;" /> </td>
+                  <th class="r center"> Rock<br></td>
+                  <td class="center">0</td>
+                  <td class="red center">-1</td>
+                  <td class="green center">1</td>
+              </tr>
+              <tr>
+                  <th class="r center">Paper</td>
+                  <td class="green center">1</td>
+                  <td class="center">-0</td>
+                  <td class="red center">-1</td>
+              </tr>
+              <tr>
+                   <th class="r center">Scissors</td>
+                   <td class="red center">-1</td>
+                   <td class="green center">1</td>
+                   <td class="center">0</td>
+              </tr>
+          </table>
+      </article>
+  </slide>
+  
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>Paper-Rock-Scissors Game : Sheldom Model</h3>
+      </hgroup>
+      </br>
+      <img src="images/sheldon1.jpg" style="position: absolute; top: 175px; left: 720px; width: 20%; z-index: -1;" />
+      <ul style="list-style-type:none">
+          <li><code class="red">x</code> == probability that Sheldom chooses rock</li>
+          <li><code class="red">y</code> == probability that Sheldom chooses paper</li>
+          <li><code class="red">z</code> == probability that Sheldom chooses scissors</li>
+          <li><code class="blue">v</code> == total value (smallest of column totals) </li>
+      </ul>
+      </br>
+      <article>
+          <table>
+              <tr>
+                  <th class="center">PayOff Matrix</th>
+                  <th class="center">Rock</th>
+                  <th class="center">Paper</th>
+                  <th class="center">Scissors</th>
+              </tr>
+              <tr>
+                  <td class="center">Rock (x)</td>
+                  <td class="center">0</td>
+                  <td class="center red">-1</td>
+                  <td class="center green">1</td>
+              </tr>
+              <tr>
+                  <td class="center">Paper (y) </td>
+                  <td class="center green">1</td>
+                  <td class="center">0</td>
+                  <td class="center red">-1</td>
+              </tr>
+              <tr>
+                  <td class="center">Scissors (z) </td>
+                  <td class="center red">-1</td>
+                  <td class="center green">1</td>
+                  <td class="center">0</td>
+              </tr>
+              <tr >
+                  <td class="center highlight">Average (v) </td>
+                  <td class="center highlight">y-z</td>
+                  <td class="center highlight">z-x</td>
+                  <td class="center highlight">x-y</td>
+              </tr>
+          </table>
+      </article>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>Paper-Rock-Scissors Game : Sheldom Model</h3>
+      </hgroup>
+      <article>
+          <pre data-lang="Model">
+              <b class="red">Maximize</b>;          <b class="blue">//This is the optimitzation sense.</b>
+              <b class="red">obj</b>:v              <b class="blue">//This is the objective function</b>
+              <b class="red">Subject to</b>         <b class="blue">//This are the constraints.</b>
+                    c1: y - z >= v    <b class="green">(Rock)</b>
+                    c2: z - x >= v    <b class="green">(Paper)</b>
+                    c3: x - y >= v    <b class="green">(Scissors)</b>
+                    c4: x + y + z = 1
+              <b class="red">Bounds</b>
+                     x >= 0
+                     y >= 0
+                     z >= 0
+              <b class="red">end</b>
+              </b>
+          </pre>
+      </article>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>Paper-Rock-Scissors Game : AMPL </h3>
+      </hgroup>
+      <article>
+          <pre data-lang="AMPL .mod">
+              <b>
+                  <b class="red">set</b> ROWS;
+                  <b class="red">set</b> COLS;
+                  <b class="red">param</b>  {ROWS,COLS} <b class="red">default</b> 0;
+                  <b class="red">var</b> x{COLS} >= 0;
+                  <b class="red">var</b> v;
+                  <b class="red">maximize</b>  zot: v;
+                  <b class="red">subject to</b>  ineqs {i in ROWS}:
+                    <b class="red">sum</b> {j in COLS} -A[i,j] * x[j] + v &lt = 0;
+                  <b class="red">subject to</b>  equal:
+                    <b class="red">sum</b> {j in COLS} x[j] = 1;
+              </b>
+          </pre>
+      </article>
+      <footer class="source">source code: <a href="src/Paper-Rock-Scissors.mod">Paper-Rock-Scissors.mod</a></footer>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>Paper-Rock-Scissors Game : AMPL </h3>
+      </hgroup>
+      <article>
+          <pre data-lang="AMPL .dat">
+              <b>
+                  <b class="red">data</b>;
+                  <b class="red">set</b> ROWS := Paper Scissors Rock;
+                  <b class="red">set</b> COLS := Paper Scissors Rock;
+                  <b class="red">param</b> A:    Paper  Scissors  Rock:=
+                    Paper       0        1       -2
+                    Scissors   -3        0        4
+                    Rock        5       -6        0
+                  ;
+              </b>
+          </pre>
+          
+      </article>
+       <footer class="source">source code: <a href="src/Paper-Rock-Scissors.dat">Paper-Rock-Scissors.dat</a> <a href="src/Paper-Rock-Scissors (2).dat">Paper-Rock-Scissors (2).dat</a></footer>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>Paper-Rock-Scissors Game : AMPL </h3>
+      </hgroup>
+      <article>
+  
+          <pre data-lang="AMPL .run">
+              <b>
+                  <b class="red">solve</b>;
+                  <b class="red">printf</b> {j in COLS}: "%3s %10.7f \n", j, 100*x[j];
+                  <b class="red">printf</b> {i in ROWS}: "%3s %10.7f \n", i, 100*ineqs[i];
+                  <b class="red">printf</b> "Value = %10.7f \n", 100*v;
+              </b>
+          </pre>
+          
+      </article>
+      <footer class="source">source code: <a href="src/Paper-Rock-Scissors.run">Paper-Rock-Scissors.run</a></footer>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>The Ultra Conservative Investor </h3>
+      </hgroup>
+      <article>
+          
+          <table>
+              <tr>
+                  <th class="center">Year</th>
+                  <th class="center">Ibex 35</th>
+                  <th class="center">NASDAQ</th>
+                  <th class="center">Dow Jones</th>
+                  <th class="center">DAX</th>
+                  <th class="center">Gold</th>
+              </tr>
+              <tr>
+                  <td class="center">2010</td>
+                  <td class="center">1,235</td>
+                  <td class="center">1,217</td>
+                  <td class="center">1,092</td>
+                  <td class="center">1,080</td>
+                  <td class="center">0,872</td>
+              </tr>
+              <tr>
+                  <td class="center">2011</td>
+                  <td class="center">1,030</td>
+                  <td class="center">0,903</td>
+                  <td class="center">1,103</td>
+                  <td class="center">1,150</td>
+                  <td class="center">0,825</td>
+              </tr>
+              <tr>
+                  <td class="center">2012</td>
+                  <td class="center">1,326</td>
+                  <td class="center">1,333</td>
+                  <td class="center">1,080</td>
+                  <td class="center">1,213</td>
+                  <td class="center">1,006</td>
+              </tr>
+              <tr>
+                  <td class="center">2013</td>
+                  <td class="center">1,161</td>
+                  <td class="center">1,086</td>
+                  <td class="center">1,092</td>
+                  <td class="center">1,156</td>
+                  <td class="center">1,216</td>
+              </tr>
+              <tr>
+                  <td class="center">2014</td>
+                  <td class="center">1,023</td>
+                  <td class="center">0,959</td>
+                  <td class="center">1,063</td>
+                  <td class="center">1,023</td>
+                  <td class="center">1,244</td>
+              </tr>
+          </table>
+      </article>
+      <footer class="source">source code: <a href="src/The Ultra Conservative Investor.dat">The Ultra Conservative Investor.dat</a></footer>
+  </slide>
+  
+  <slide>
+      <hgroup>
+          <h2>Game Theory and Linear Programming</h2>
+          <h3>The Ultra Conservative Inversor </h3>
+      </hgroup>
+      <article>
+          <ul>
+              <li>Lets consider now the historical return on investment data:<b class="red"> ROI</b>. </li>
+              <li>We can view this as a <b class="red">payoff matrix</b> in a game between <b class="red">Fate</b> and <b class="red">the investor</b>. </li>
+              <li>The columns represents pure strategies for our conservative investor. </li>
+              <li>The rows represents how history might repeat itself. </li>
+              <li>So in <b class="blue">2015</b>, <b class="red">Fate</b> won't just repeat a previous year but, rather will present some mix of these previous years.</li>
+              <li>The <b class="red">inverstor</b> won't put all of his money into one asset. Instead he will put a certain fraction into each one.' </li>
+          </ul>
+
+      </article>
+      <footer class="source">Online Solvers: <a href="http://www.neos-server.org/neos/">NEOS SERVER</a></footer>
+  </slide>
+  
+  
+  <slide>
+      <hgroup>
+          <h2>References</h2>
+      </hgroup>
+      <article>
+          <ul>
+              <li><a href=" http://www.princeton.edu/~rvdb/522/Fall13/lectures/lectures.html">Linear Programming Course of Robert J. Vanderbei</a></li>
+              <li><a href=" http://home.ubalt.edu/ntsbarsh/business-stat/opre/spanishg.htm">Introducción a la Teoría de Juegos</a></li>
+              <li><a href="http://support.sas.com/documentation/cdl/en/ormpug/59679/HTML/default/viewer.htm#lpsolver_sect20.htm"> Two-Person Zero-Sum Game</a></li>
+                  <li><a href="http://www.empresayeconomia.es/general/decidir-sobre-un-portafolio-de-inversion.html">Ejemplo: El portafoli de Inversión</a></li>
+              <li><a href="https://www.cs.duke.edu/courses/fall10/cps270/gtintro.pdf">Brief  Comments  on  Game  Theory</a></li>
+              <li><a href="http://www.isye.gatech.edu/~jsokol/2030.ppt">Linear Programming and Game Theory</a></li>
+          </ul>
+          
+      </article>
+  </slide>
+
+
+
+  <slide class="thank-you-slide segue nobackground">
+    <aside class="gdbar right"><img src="images/udl.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+       <p class="auto-fadein"><p> Jordi Mateo Fornés</p>
+      <p class="auto-fadein"><a href="mailto:jmateo@diei.udl.cat" style="color: white;">jmateo@diei.udl.cat</a></p>
+
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>

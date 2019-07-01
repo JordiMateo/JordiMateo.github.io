@@ -1,0 +1,4 @@
+solve;
+printf {j in COLS}: " %3s %10.7f \n", j, 100*x[j];
+printf {i in ROWS}: " %3s %10.7f \n", i, 100*ineqs[i];
+printf: "Value = %10.7f \n", 100*v;

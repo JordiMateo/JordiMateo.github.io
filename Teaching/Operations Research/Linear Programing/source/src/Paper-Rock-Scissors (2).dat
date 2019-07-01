@@ -1,0 +1,8 @@
+data;
+set ROWS := Paper Scissors Rock;
+set COLS := Paper Scissors Rock;
+param A:   Paper Scissors Rock :=
+   Paper     0       1     -2
+   Scissors -3       0      4
+   Rock      5      -6      0
+;
