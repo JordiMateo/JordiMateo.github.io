@@ -30,7 +30,45 @@
     <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 
-    <style>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font: 16px Helvetica, Sans-Serif;
+            line-height: 24px
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        #page-wrap {
+            width: 800px;
+            margin: 40px auto 60px;
+        }
+
+        #pic {
+            float: right;
+            margin: -30px 0 0 0;
+        }
+
+        h1 {
+            margin: 0 0 16px 0;
+            padding: 0 0 16px 0;
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: -2px;
+            border-bottom: 1px solid #999;
+        }
+
+        dd {
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
         .accordion {
             background-color: #eee;
             color: #444;
@@ -69,8 +107,8 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="Thesis.html">Thesis</a></li>
                 <li class="colorlib-active"><a href="Teaching.html">Teaching</a></li>
-                <li><a href="Research.html">Research</a></li>
-                <li ><a href="about.html">About</a></li>
+                <li><a href="MasterThesis.html">Master Thesis supervision</a></li>
+                <li><a href="about.html">About</a></li>
             </ul>
         </nav>
 
@@ -81,28 +119,109 @@
                 All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
                         href="https://colorlib.com" target="_blank">Colorlib</a>
             <ul>
-                <li><a href="https://scholar.google.com/citations?user=t-vbHCoAAAAJ"><i class="ai ai-google-scholar-square ai-3x"></i></a></li>
-            <li><a href="https://es.linkedin.com/in/jordi-mateo-fornés-84694b58"><i class="fa fa-linkedin-square fa-3x"></i></a></li>
+                <li><a href="https://scholar.google.com/citations?user=t-vbHCoAAAAJ"><i
+                        class="ai ai-google-scholar-square ai-3x"></i></a></li>
+                <li><a href="https://es.linkedin.com/in/jordi-mateo-fornés-84694b58"><i
+                        class="fa fa-linkedin-square fa-3x"></i></a></li>
                 <li><a href="https://orcid.org/0000-0002-1660-0380"><i class="ai ai-orcid-square ai-3x"></i></a></li>
-                <li><a href="https://www.researchgate.net/profile/Jordi_Mateo_Fornes2"><i class="ai ai-researchgate-square ai-3x"></i></a></li>
+                <li><a href="https://www.researchgate.net/profile/Jordi_Mateo_Fornes2"><i
+                        class="ai ai-researchgate-square ai-3x"></i></a></li>
                 <li><a href="https://github.com/JordiMateo"><i class="fa fa-github-square fa-3x"></i></a></li>
             </ul>
         </div>
     </aside> <!-- END COLORLIB-ASIDE -->
+
     <div id="colorlib-main">
-        <div class="container">
+        <div id="page-wrap">
             <h1>Teaching</h1>
-            <button class="accordion">Linear Programming Lab</button>
+
+
+            <!-- Courses -->
+
+            <!-- Operating Systems (OS) -->
+            <button class="accordion">Operating Systems</button>
             <div class="panel">
 
                 <div align="left">
-                    <a href="Teaching/Operations Research/Linear Programing/source/LabLinearProgramming.html">
-                        <p>Brief introduction to Linear Programming and Game theory. Keywords: Modeling, CPLEX, OPL,
-                            AMPL, NEOS
-                        </p>
-                    </a>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <br>
+                            <a href="#">
+                                <img class="img-fluid rounded mb-3 mb-md-0" src="images/os.png" alt="" width="200"
+                                     height="200">
+                            </a>
+                        </div>
+                        <div class="col-md-10">
+                            <br>
+                            <p> Graduate-level introductory course in operating
+                                systems. This course teaches the basic operating system abstractions, mechanisms, and their
+                                implementations. The course also introduce the readers to Linux basics.
+                            </p>
+
+                            <a class="btn btn-primary"
+                               href="https://github.com/JordiMateoUdL/Development-of-Mobile-Applications">View
+                                Course</a>
+                        </div>
+                    </div>
+                    <br>
                 </div>
             </div>
+
+            <!-- Development of Mobile Apps (DAM) -->
+            <button class="accordion">Development of Mobile Applications</button>
+            <div class="panel">
+
+                <div align="left">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <br>
+                            <a href="#">
+                                <img class="img-fluid rounded mb-3 mb-md-0" src="images/dam.png" alt="" width="200"
+                                     height="200">
+                            </a>
+                        </div>
+                        <div class="col-md-10">
+                            <br>
+                            <p>Take your coding skills to the next level. The course uses the JAVA programming language
+                                and teaches you about UX,notifications, maps, communication, storage, ... Learn how to
+                                properly code, evaluate, test and launch your mobile apps.
+                            </p>
+
+                            <a class="btn btn-primary"
+                               href="https://github.com/JordiMateoUdL/Development-of-Mobile-Applications">View
+                                Course</a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+            <!-- Linear Programming -->
+            <button class="accordion">Linear Programming</button>
+            <div class="panel">
+
+                <div align="left">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <br>
+
+                            <ul>
+                                <li>Brief introduction to Linear Programming and Game theory. Keywords: Modeling, CPLEX, OPL,
+                                    AMPL, NEOS.</li>
+                            </ul>
+
+                        </div>
+                        <div class="col-md-2">
+                            <br>
+                            <a class="btn btn-primary"
+                               href="Teaching/Operations Research/Linear Programing/source/LabLinearProgramming.html">View
+                                Slides</a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
         </div>
     </div><!-- END COLORLIB-MAIN -->
 </div><!-- END COLORLIB-PAGE -->
